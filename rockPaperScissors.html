@@ -1,0 +1,90 @@
+<script type="text/javascript">
+
+//Winner is used for tracking score, -1 for a computer win, 0 for a tie, and 1 for a player win.
+let winner = 0;
+console.log(game());
+
+function computerPlay(){
+	let number=Math.random();
+	if (number<=0.333){
+		return "rock";
+	} else if (number <=0.666){
+		return "paper";
+	} else {
+		return "scissors";
+	}
+
+}
+
+function play(computerChoice, playerChoice){
+	playerChoice=playerChoice.toLowerCase();
+
+	switch(playerChoice){
+		case "rock":
+			if (computerChoice=="rock") {
+				winner = 0;
+				return "Again! Rock ties rock!";
+			} else if (computerChoice=="paper"){
+				winner = -1;
+				return "You lose! Paper beats rock!";
+			} else {
+				winner = 1;
+				return "You win! Rock beats scissors!";
+			}
+		case "paper":
+			if (computerChoice=="rock") {
+				winner = 1;
+				return "You win! Paper beats rock!";
+			} else if (computerChoice=="paper"){
+				winner = 0;
+				return "Again! Paper ties paper!";
+			} else {
+				winner = -1;
+				return "You lose! Scissors beats paper!";
+			}
+		case "scissors":
+			if (computerChoice=="rock") {
+				winner = -1;
+				return "You lose! Rock beats scissors!";
+			} else if (computerChoice=="paper"){
+				winner = 1;
+				return "You win! Scissors beats paper!";
+			} else {
+				winner = 0;
+				return "Again! Scissors ties scissors!";
+			}
+
+	}
+	winner = -1;
+	return "Invalid Input, the computer wins! Maybe try playing correctly next time!";
+
+}
+
+function game(){
+	let playerScore=0;
+	let computerScore=0;
+
+	console.log("Let's play five rounds!");
+	let numberOfGames=5;
+	for(i=0; i<numberOfGames;i++){
+		playerChoice= prompt("Rock, Paper, or Scissors?");
+		console.log(play (computerPlay(), playerChoice));
+		if (winner==1){
+			playerScore++;
+		} else if (winner==-1){
+			computerScore++;
+		}
+		console.log("The current score is: " +playerScore + " for the player and " + computerScore + " for the computer.");
+
+	}
+
+	if (computerScore > playerScore){
+		return "You lose! Sorry!";
+	} else if (computerScore< playerScore){
+		return "You win! Hooray!";
+	}
+
+}
+
+
+</script>
