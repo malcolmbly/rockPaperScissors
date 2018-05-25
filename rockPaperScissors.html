@@ -1,14 +1,30 @@
-<script type="text/javascript">
+<!DOCTYPE= html>
 
-//Winner is used for tracking score, -1 for a computer win, 0 for a tie, and 1 for a player win.
-let winner = 0;
-console.log(game());
+<head>
+	<title>Welcome to Rock, Paper, or Scissors!</title>
+</head>
+
+<body>
+	<h1>Time to Play a Game of Rock, Paper, or Scissors!</h1>
+<div>
+	<button value='rock'>Rock</button>
+	<button value='paper'>Paper</button>
+	<button value='scissors'>Scissors</button>
+</div>
+<div class='results'> </div>
+<div class='score'>
+
+</div>
+
+<script type="text/javascript">
+let playerScore=0;
+let computerScore=0;
 
 function computerPlay(){
 	let number=Math.random();
-	if (number<=0.333){
+	if (number<=1/3){
 		return "rock";
-	} else if (number <=0.666){
+	} else if (number <=2/3){
 		return "paper";
 	} else {
 		return "scissors";
@@ -16,75 +32,105 @@ function computerPlay(){
 
 }
 
-function play(computerChoice, playerChoice){
-	playerChoice=playerChoice.toLowerCase();
+function play(e){
+	const results = document.createElement('p');
+	const container = document.querySelector('.results')
+	if (container.hasChildNodes()){
+		container.removeChild(container.firstChild);
+	}
+	container.appendChild(results);
+	playerChoice=this.value;
+	let computerChoice=computerPlay();
+	results.innerHTML="";
 
 	switch(playerChoice){
 		case "rock":
 			if (computerChoice=="rock") {
-				winner = 0;
-				return "Again! Rock ties rock!";
+				results.innerHTML="Again! Rock ties rock!";
+				game();
+				break;
 			} else if (computerChoice=="paper"){
-				winner = -1;
-				return "You lose! Paper beats rock!";
+				computerScore++;
+				results.innerHTML="You lose this round! Paper beats rock!";
+				game();
+				break;
 			} else {
-				winner = 1;
-				return "You win! Rock beats scissors!";
+				playerScore++;
+				results.innerHTML="You win this round! Rock beats scissors!";
+				game();
+				break;
 			}
 		case "paper":
 			if (computerChoice=="rock") {
-				winner = 1;
-				return "You win! Paper beats rock!";
+				playerScore++;
+				results.innerHTML="You win this round! Paper beats rock!";
+				game();
+				break;
+
 			} else if (computerChoice=="paper"){
-				winner = 0;
-				return "Again! Paper ties paper!";
+				results.innerHTML="Again! Paper ties paper!";
+				game();
+				break;
+
 			} else {
-				winner = -1;
-				return "You lose! Scissors beats paper!";
+				computerScore++;
+				results.innerHTML="You lose this round! Scissors beats paper!";
+				game();
+				break;
+
 			}
 		case "scissors":
 			if (computerChoice=="rock") {
-				winner = -1;
-				return "You lose! Rock beats scissors!";
+				computerScore++;
+				results.innerHTML="You lose this round! Rock beats scissors!";
+				game();
+				break;
+
 			} else if (computerChoice=="paper"){
-				winner = 1;
-				return "You win! Scissors beats paper!";
+				playerScore++;
+				results.innerHTML="You win this round! Scissors beats paper!";
+				game();
+				break;
+
 			} else {
-				winner = 0;
-				return "Again! Scissors ties scissors!";
+				results.innerHTML="Again! Scissors ties scissors!";
+				game();
+				break;
+
 			}
 
 	}
-	winner = -1;
-	return "Invalid Input, the computer wins! Maybe try playing correctly next time!";
 
 }
 
 function game(){
-	let playerScore=0;
-	let computerScore=0;
 
-	console.log("Let's play five rounds!");
-	let numberOfGames=5;
-	for(i=0; i<numberOfGames;i++){
-		playerChoice= prompt("Rock, Paper, or Scissors?");
-		console.log(play (computerPlay(), playerChoice));
-		if (winner==1){
-			playerScore++;
-		} else if (winner==-1){
-			computerScore++;
-		}
-		console.log("The current score is: " +playerScore + " for the player and " + computerScore + " for the computer.");
+	const score = document.createElement('p');
+	const container2 = document.querySelector('.score')
+		if (container2.hasChildNodes()){
+		container2.removeChild(container2.firstChild);
+	}
+	container2.appendChild(score);
+	score.innerHTML="";
+	score.innerHTML="The current score is: " +playerScore + " for the player and " + computerScore + " for the computer.";
 
+
+	if (playerScore==5) {
+		score.innerHTML="You wrecked the computer! Final Score: " +
+		playerScore + " to " + computerScore;
+		choiceButtons.foreach(removeEventListener('click',play))
 	}
 
-	if (computerScore > playerScore){
-		return "You lose! Sorry!";
-	} else if (computerScore< playerScore){
-		return "You win! Hooray!";
+	if (computerScore==5) {
+		score.innerHTML="The computer wins! Final Score: " +
+		computerScore + " to " + playerScore;
+		choiceButtons.foreach(removeEventListener('click',play))
 	}
-
 }
 
+const choiceButtons= Array.from(document.querySelectorAll('button'));
 
+choiceButtons.forEach(button =>button.addEventListener('click',play))
 </script>
+
+</body>
